@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.navbar {
+    background-color: #1f2937; /* Customize background color */
+    color: #fff; /* Customize text color */
+    display: flex; /* Arrange elements horizontally */
+    justify-content: space-between; /* Space items evenly */
+    align-items: center; /* Align items vertically */
+    padding: 1rem 2rem; /* Add padding */
+  }
