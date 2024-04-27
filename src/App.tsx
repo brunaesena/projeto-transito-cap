@@ -1,6 +1,10 @@
 import { FiTrash } from "react-icons/fi"
 import { api } from "./services/api"
 import { useEffect, useState, useRef, FormEvent } from "react"
+import Nav from "./components/Nav"
+import { BrowserRouter } from "react-router-dom"
+import Header from "./components/Header"
+
 
 interface DenunciasProps {
   "id": string,
@@ -28,7 +32,7 @@ export default function App() {
     setDenuncias(response.data)
   }
 
-  async function handleSubmit(e: FormEvent) {
+  async function handleSubmitDenuncia(e: FormEvent) {
     e.preventDefault();
 
     if (!tituloRef.current?.value || !descRef.current?.value || !locRef.current?.value) return;
@@ -66,8 +70,11 @@ export default function App() {
   return (
     <div className="w-full min-h-screen bg-gray-900 flex justify-center px-4">
       <main className="my-10 w-full md:max-w-2x1">
-        <h1 className="text-4xl font-medium text-white">Denúncias</h1>
-        <form className="flex flex-col my-6" onSubmit={handleSubmit}>
+      <BrowserRouter>
+        <Header/>
+      </BrowserRouter>
+        <h1 className="text-4xl font-medium text-white">Denúncias - Rota Segura</h1>
+        <form className="flex flex-col my-6" onSubmit={handleSubmitDenuncia}>
 
           <label className="font-medium text-white"> Título da denúncia</label>
           <input
