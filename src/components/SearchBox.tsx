@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react";
 
+
 interface Suggestion {
     text: string;
   }
@@ -9,6 +10,8 @@ export const SerachBox = () => {
 
     const [inputValue, setInputValue] = useState<string>('');
     const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+
+    // const apiKey = process.env.API_KEY;
 
     const app = axios;
     const body = {
@@ -22,12 +25,10 @@ export const SerachBox = () => {
     useEffect(() => {
       const funtionCallApiSuggestion = async () => {
         try {
-            console.log('CHAMO API')
             const response = await app.post("https://places.googleapis.com/v1/places:autocomplete", body, {headers})
             const suggestionsFromApi: Suggestion[] = response.data.suggestions.map((suggestion: any) => suggestion.placePrediction.text);
             setSuggestions(suggestionsFromApi);
         } catch (error) {
-            console.log('DEU MERDA')
             console.error('Erro ao buscar sugestões:', error);
         }
       }
@@ -39,17 +40,35 @@ export const SerachBox = () => {
       }
     }, [inputValue]);
     console.log('SUGGESTAO', suggestions)
+
+    const handleSuggestionClick = (suggestion: string) => {
+      setInputValue(suggestion);
+      setSuggestions([]); // Limpa as sugestões após a seleção
+    };
+
+    const handleBlur = () => {
+      setSuggestions([])
+    }
+
     return (
         <div>
-        <input
+          <input
           type="text"
+          id = "search-input"
+          placeholder="Digite o endereço do local reportado"
+          className="w-full mb-5 p-2 rounded"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
-          placeholder="Digite aqui..."
-        />
-        <ul>
+          />
+        <ul className="bg-gray-100 text-gray-800">
           {suggestions.map((suggestion, index) => (
-            <li key={index}>{suggestion.text}</li>
+            <li 
+            key={index} 
+            onBlur={handleBlur} 
+            onClick={() => handleSuggestionClick(suggestion.text)}
+            className="p-2 border-b border-gray-300 hover:bg-gray-200 cursor-pointer">
+              {suggestion.text}
+            </li>
           ))}
         </ul>
       </div>

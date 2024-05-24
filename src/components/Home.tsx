@@ -37,7 +37,9 @@ export const Home = () => {
       !tituloRef.current?.value ||
       !descRef.current?.value ||
       !locRef.current?.value
-    )
+    ) {
+      console.log('ta faltando algum elemento')
+    }
       return;
 
     const response = await api.post("/denuncia", {
@@ -95,15 +97,8 @@ export const Home = () => {
           />
 
           <label className="font-medium text-white"> Localidade</label>
-          <input
-            type="text"
-            id = "search-input"
-            placeholder="Digite o endereço do local reportado"
-            className="w-full mb-5 p-2 rounded"
-            ref={locRef}
-          />
-
-          <SerachBox/>
+          <SerachBox />
+          {/* ref={locRef} */}
 
           <input
             type="submit"
